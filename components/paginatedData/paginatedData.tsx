@@ -41,7 +41,7 @@ export function PaginatedData({ data, pageSize }: IPaginatedDataProps) {
         breakLabel="..."
         nextLabel="Proximo"
         onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
+        pageRangeDisplayed={8}
         pageCount={pageCount}
         previousLabel="Voltar"
         renderOnZeroPageCount={null}
@@ -49,9 +49,9 @@ export function PaginatedData({ data, pageSize }: IPaginatedDataProps) {
         activeClassName="bg-blue-500  px-3 py-2 text-white font-semibold"
         pageClassName="mr-2"
         pageLinkClassName="px-3 py-2  hover:bg-blue-200"
-        previousClassName="mr-2"
+        previousClassName="mr-2 mt-2"
         previousLinkClassName="px-3 py-2  bg-blue-500 text-white font-semibold"
-        nextClassName="ml-2"
+        nextClassName="ml-2 mt-2"
         nextLinkClassName="px-3 py-2  bg-blue-500 text-white font-semibold"
       />
     </>

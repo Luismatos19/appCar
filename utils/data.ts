@@ -1,8 +1,16 @@
-import { useSearchParams } from "next/navigation";
-
 export async function getCars() {
-  const response = await fetch(`http://localhost:3000/api/cars`);
-  return response.json();
+  const url = "/api/cars";
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Fail to search cars");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Erro:", error);
+    return { success: false, message: error.message };
+  }
 }
 
 export async function getCarById(license: string) {

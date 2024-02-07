@@ -1,0 +1,43 @@
+import { useEffect, useState } from "react";
+
+import { getCarById } from "../../utils/data";
+import { formattedPrice } from "../../utils/utils";
+import { Button } from "../../components/Button/button";
+
+interface iCarProps {
+  license: string;
+}
+
+export default function CarDetails({ license }: iCarProps) {
+  const [car, setCar] = useState<ICar>();
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getCarById(license);
+      setCar(response[0]);
+    }
+
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <div className="container none m-0-auto flex items-center flex-col p-5">
+        <img
+          src={car?.image}
+          width={600}
+          height={400}
+          className="rounded-md shadow-lg"
+        />
+        <div className="text-lg font-bold m-0">{`${car?.model} - ${car?.brand}`}</div>
+        <div className="text-lg font-bold m-0">{`Cor - ${car?.color}`}</div>
+        <div className="text-lg font-bold m-0">{`Preço - ${formattedPrice(
+          car?.price || 0
+        )}`}</div>
+        <div className="mt-5">
+          <Button>Financie</Button>
+        </div>
+      </div>
+    </>
+  );
+}
