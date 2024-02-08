@@ -8,8 +8,7 @@ export async function getCars() {
     }
     return await response.json();
   } catch (error) {
-    console.error("Erro:", error);
-    return { success: false, message: error.message };
+    return { success: false, message: "Something whent wrong" };
   }
 }
 
@@ -23,7 +22,6 @@ export async function getCarById(license: string) {
     }
     return await response.json();
   } catch (error) {
-    console.error("Erro:", error);
-    return { success: false, message: error.message };
+    return { success: false, message: "Something whent wrong" };
   }
 }

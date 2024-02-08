@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { getCarById } from "../../utils/data";
 import { capitalizeFirstLetter, formattedPrice } from "../../utils/utils";
@@ -26,8 +28,16 @@ export default function CarDetails({ license }: iCarProps) {
   }, []);
 
   async function handleDelete() {
-    deleteCar(license);
-    navigation.push("/");
+    const response = await deleteCar(license);
+
+    if (response.success === true) {
+      toast.success("Carro deletado com sucesso");
+      setTimeout(function () {
+        navigation.push("/");
+      }, 1000);
+      return;
+    }
+    toast.error("Algo deu errado");
   }
 
   function handleFinance() {
@@ -36,6 +46,7 @@ export default function CarDetails({ license }: iCarProps) {
 
   return (
     <>
+      <ToastContainer />
       {car && (
         <div className="container none w-1/2  mx-auto h-4/5 flex items-center flex-col p-5">
           <img src={car.image} className="rounded-md shadow-lg w-full h-80" />

@@ -1,4 +1,10 @@
-export async function deleteCar(license: string) {
+type DeleteCarResponse = {
+  success: boolean;
+  message?: string;
+  data?: any;
+};
+
+export async function deleteCar(license: string): Promise<DeleteCarResponse> {
   const url = `http://localhost:3000/api/cars/license?license=${license}`;
 
   try {
@@ -7,10 +13,14 @@ export async function deleteCar(license: string) {
     });
     return await response.json();
   } catch (error) {
-    console.error("Erro:", error);
-    return { success: false, message: error.message };
+    return { success: false, message: "Something went wrong" };
   }
 }
+
+type CreateCarResponse = {
+  success: boolean;
+  message?: string;
+};
 
 export async function createCar(data: ICar) {
   try {
@@ -22,7 +32,7 @@ export async function createCar(data: ICar) {
       body: JSON.stringify(data),
     });
   } catch (error) {
-    console.error("Error creating car:", error);
+    return { success: false, message: "Something went wrong" };
   }
 }
 

@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     return NextResponse.json({
       message: error,
-      sucess: false,
+      success: false,
     });
   }
 }
@@ -30,14 +30,14 @@ export async function DELETE(req: NextRequest) {
     const deletedCar = await Car.findOneAndDelete({ license });
 
     return NextResponse.json({
-      message: "Car created successfully",
-      sucess: true,
+      message: "carro deletado com sucesso!",
+      success: true,
       deletedCar,
     });
   } catch (error) {
     return NextResponse.json({
-      message: "Something went wrong",
-      sucess: false,
+      message: "Algo deu errado",
+      success: false,
     });
   }
 }

@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex justify-between items-center w-auto mx-40 my-10">
+      <div className="flex justify-between items-center container mx-auto">
         <div className="flex items-center justify-center m-8">
           <div className="mr-5 font-bold">Buscar por placa: </div>
           <input

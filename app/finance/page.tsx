@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 
 import { getScore } from "../../utils/actions";
 import { Modal } from "../../components/modal/modal";
-import { Turret_Road } from "next/font/google";
 
 export default function Finance() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +14,7 @@ export default function Finance() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const notify = () => toast.error("Notificação simples!");
 
   async function onSubmit(data) {
     const response = await getScore(data);
@@ -24,7 +24,9 @@ export default function Finance() {
 
   return (
     <>
-      <Modal isOpen={isModalOpen} text={modalText} setIsOpen={setIsModalOpen} />
+      <div>
+        <button onClick={notify}>Mostrar Notificação</button>
+      </div>
       <div className="max-w-md mx-auto bg-blue-200 p-8 rounded-md shadow-md mt-5">
         <h2 className="text-2xl font-bold mb-4">Financiamento</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,6 +121,13 @@ export default function Finance() {
           </button>
         </form>
       </div>
+      {isModalOpen && (
+        <Modal
+          isOpen={isModalOpen}
+          text={modalText}
+          setIsOpen={setIsModalOpen}
+        />
+      )}
     </>
   );
 }

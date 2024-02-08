@@ -14,7 +14,7 @@ export async function GET() {
   } catch (error) {
     return NextResponse.json({
       message: "Something went wrong",
-      sucess: false,
+      success: false,
     });
   }
 }
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const reqBody = await req.json();
     const { brand, model, color, license, price, image } = reqBody;
-    const newCar = await Car.create({
+    await Car.create({
       brand,
       model,
       color,
@@ -35,13 +35,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
     return NextResponse.json({
       message: "Car created successfully",
-      sucess: true,
-      newCar,
+      success: true,
     });
   } catch (error) {
-    NextResponse.json({
+    return NextResponse.json({
       message: error,
-      sucess: false,
+      success: false,
     });
   }
 }

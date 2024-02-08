@@ -45,7 +45,7 @@ export function PaginatedData({ data, pageSize }: IPaginatedDataProps) {
         pageCount={pageCount}
         previousLabel="Voltar"
         renderOnZeroPageCount={null}
-        containerClassName="flex justify-center  mt-4"
+        containerClassName="flex justify-center  mt-4 mb-10"
         activeClassName="bg-blue-500  px-3 py-2 text-white font-semibold"
         pageClassName="mr-2"
         pageLinkClassName="px-3 py-2  hover:bg-blue-200"
