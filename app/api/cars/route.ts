@@ -1,33 +1,30 @@
+"use server";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { Car } from "../../../utils/models";
 import { connectToDb } from "../../../utils/utils";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   await connectToDb();
 
-  if (req.method === "GET") {
-    return getAllCars(req, res);
-  } else if (req.method === "POST") {
-    return createCar(req, res);
-  } else {
-    res.status(405).json({ success: false, message: "Method Not Allowed" });
-  }
-}
-
-async function getAllCars(req: NextApiRequest, res: NextApiResponse) {
   try {
     const cars = await Car.find();
     return NextResponse.json(cars);
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return NextResponse.json({
+      message: "Something went wrong",
+      sucess: false,
+    });
   }
 }
 
-async function createCar(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
+  await connectToDb();
+
   try {
-    const { brand, model, color, license, price, image } = req.body;
+    const reqBody = await req.json();
+    const { brand, model, color, license, price, image } = reqBody;
     const newCar = await Car.create({
       brand,
       model,
@@ -36,8 +33,15 @@ async function createCar(req: NextApiRequest, res: NextApiResponse) {
       price,
       image,
     });
-    res.status(201).json({ success: true, data: newCar });
+    return NextResponse.json({
+      message: "Car created successfully",
+      sucess: true,
+      newCar,
+    });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    NextResponse.json({
+      message: error,
+      sucess: false,
+    });
   }
 }

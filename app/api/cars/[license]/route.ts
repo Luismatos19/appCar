@@ -1,49 +1,43 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
 import { connectToDb } from "../../../../utils/utils";
 import { Car } from "../../../../utils/models";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const { method } = req;
-
+export async function GET(req: NextRequest) {
   await connectToDb();
 
-  switch (method) {
-    case "GET":
-      return getCarByLicense(req, res);
-    case "DELETE":
-      return deleteCarByLicense(req, res);
-    default:
-      res.status(405).json({ success: false, message: "Method Not Allowed" });
-      break;
-  }
-}
+  const searchParams = req.nextUrl.searchParams;
+  const license = searchParams.get("license");
 
-async function getCarByLicense(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { license } = req.query;
     const car = await Car.findOne({ license });
-    console.log(res);
-    if (!car) {
-      return res.status(404).json({ success: false, message: "Car not found" });
-    }
-    res.status(200).json({ success: true, data: car });
+    return NextResponse.json(car);
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return NextResponse.json({
+      message: error,
+      sucess: false,
+    });
   }
 }
 
-async function deleteCarByLicense(req: NextApiRequest, res: NextApiResponse) {
+export async function DELETE(req: NextRequest) {
+  await connectToDb();
+
+  const searchParams = req.nextUrl.searchParams;
+  const license = searchParams.get("license");
+
   try {
-    const { license } = req.query;
     const deletedCar = await Car.findOneAndDelete({ license });
-    if (!deletedCar) {
-      return res.status(404).json({ success: false, message: "Car not found" });
-    }
-    res
-      .status(200)
-      .json({ success: true, message: "Car deleted successfully" });
+
+    return NextResponse.json({
+      message: "Car created successfully",
+      sucess: true,
+      deletedCar,
+    });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    return NextResponse.json({
+      message: "Something went wrong",
+      sucess: false,
+    });
   }
 }

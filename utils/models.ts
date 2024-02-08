@@ -26,7 +26,6 @@ const carSchema = new mongoose.Schema(
     price: {
       type: Number,
       require: true,
-      unique: true,
     },
     image: {
       type: String,
